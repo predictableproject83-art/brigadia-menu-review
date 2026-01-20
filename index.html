@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révision Menu - BRIGADIA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍕 Finalisation de votre menu</h1>
+            <p>Nous avons besoin de quelques informations pour compléter votre menu</p>
+        </div>
+
+        <form id="reviewForm">
+            <div id="questionsContainer">
+                <!-- Questions will be injected here by JavaScript -->
+            </div>
+
+            <div class="form-group">
+                <button type="submit" id="submitBtn">Envoyer mes réponses</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+            <h2>✅ Merci !</h2>
+            <p>Vos réponses ont été envoyées. Votre menu sera finalisé dans les prochaines minutes.</p>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <p>Une erreur s'est produite. Veuillez réessayer.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
