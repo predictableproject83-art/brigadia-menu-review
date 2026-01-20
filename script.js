@@ -79,7 +79,7 @@ async function handleSubmit(event) {
     
     try {
         // TODO: Replace with your n8n webhook URL
-        const webhookURL = 'WEBHOOK_URL_TO_REPLACE';
+        const const webhookURL = 'https://marguerite.app.n8n.cloud/webhook/menu-review-responses';
         
         const response = await fetch(webhookURL, {
             method: 'POST',
