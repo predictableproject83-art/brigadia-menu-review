@@ -54,7 +54,10 @@ function generateForm(questions) {
 async function handleSubmit(event) {
     event.preventDefault();
     
-    const { uploadBatchId, questions } = getURLParams();
+    const data = loadQuestions();
+    if (!data) return;
+    
+    const { uploadBatchId, questions } = data;
     const formData = new FormData(event.target);
     
     // Build responses array
@@ -62,66 +65,3 @@ async function handleSubmit(event) {
         return {
             issue_key: question.issue_key,
             question: question.question,
-            resolved_value: formData.get(`question_${index}`)
-        };
-    });
-    
-    // Prepare payload
-    const payload = {
-        upload_batch_id: uploadBatchId,
-        responses: responses
-    };
-    
-    // Submit to webhook
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Envoi en cours...';
-    
-    try {
-        // TODO: Replace with your n8n webhook URL
-        const const webhookURL = 'https://marguerite.app.n8n.cloud/webhook/menu-review-responses';
-        
-        const response = await fetch(webhookURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-        
-        if (response.ok) {
-            showSuccess();
-        } else {
-            throw new Error('Erreur serveur');
-        }
-    } catch (error) {
-        showError('Erreur lors de l\'envoi. Veuillez réessayer.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Envoyer mes réponses';
-    }
-}
-
-// Show success message
-function showSuccess() {
-    document.getElementById('reviewForm').style.display = 'none';
-    document.getElementById('successMessage').style.display = 'block';
-}
-
-// Show error message
-function showError(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const data = loadQuestions();
-    
-    if (data) {
-        generateForm(data.questions);
-        document.getElementById('reviewForm').addEventListener('submit', handleSubmit);
-    } else {
-        document.getElementById('reviewForm').style.display = 'none';
-    }
-});
